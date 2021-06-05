@@ -1,7 +1,8 @@
 
-
+// define JSON query URL
 var QueryURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
 
+// CalcMarkerColours returns the marker colour based on earthquake magniture 
 function CalcMarkerColour (EarthQuakeMagnitude) {
     if (EarthQuakeMagnitude <= 4) {
         console.log("less than 4")
@@ -32,7 +33,7 @@ function CalcMarkerColour (EarthQuakeMagnitude) {
     }
 };
 
-
+// creates the map with LightMap layer 
 function CreateMap (earthquakes) {
     console.log("bar")
     var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -62,11 +63,12 @@ function CreateMap (earthquakes) {
 };
 
 
-
+// CreateMarkers reads JSON and interprets and creates markers for them 
 function CreateMarkers(response) {
-    // console.log(response)
     var EarthquakesAll = response.features;
+    // define empty array 
     var EarthquakeMarkers = [];
+    // FOR loop reads through JSON 
     for (var i = 0; i < EarthquakesAll.length; i++) {
         var EarthquakeLocation = EarthquakesAll[i].geometry.coordinates
         var EarthQuakeLocationLat = EarthquakesAll[i].geometry.coordinates[1]
@@ -87,9 +89,11 @@ function CreateMarkers(response) {
             fillOpacity: .4
             // opacity: 0
             })
-            .bindPopup("<h6>Location: " + EarthQuakePlace + "<br>" + "Magnitude: " + EarthQuakeMagnitude + "</h6>");
-        
-        // console.log(`lat ${EarthQuakeLocationLat}, long ${EarthQuakeLocationLong}, depth ${EarthQuakeLocationDepth}, place ${EarthQuakePlace}`)
+            .bindPopup("<h6>Location: " + EarthQuakePlace + "<br>" + 
+            "Magnitude: " + EarthQuakeMagnitude + "<br>" + 
+            "Date / Time " + EarthQuakeDateTime + "<br>" + 
+            "Depth: " + EarthQuakeLocationDepth + "m</h6>");
+
 
         EarthquakeMarkers.push(EarthQuakeMarker);
     }
@@ -98,12 +102,6 @@ function CreateMarkers(response) {
         
 
     };
-
-
-
-    
-
-
 
 
 d3.json(QueryURL, CreateMarkers)
