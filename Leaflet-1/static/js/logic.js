@@ -76,7 +76,7 @@ function CreateMarkers(response) {
         var EarthQuakeMagnitude = EarthquakesAll[i].properties.mag
         var EarthQuakePlace = EarthquakesAll[i].properties.place
         var EarthQuakeDateTime = new Date(EarthquakesAll[i].properties.time *1000).toGMTString()
-        const EarthQuakeMarkerRadius = EarthQuakeMagnitude * 50000
+        const EarthQuakeMarkerRadius = EarthQuakeMagnitude **3 * 3000
         var EarthQuakeMarkerColour = CalcMarkerColour(EarthQuakeMagnitude)
         var EarthQuakeMarker = L.circle([EarthQuakeLocationLat, EarthQuakeLocationLong], {
             radius: EarthQuakeMarkerRadius,
